@@ -1,0 +1,10 @@
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Bookmark, Flower2, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+export function Header({ bookmarkCount }) {
+ const [open,setOpen]=useState(false); const location=useLocation();
+ const links=[['Home','/'],['About Us','/about'],['Stories','/stories'],['Content','/content/facts'],['Contact','/contact']];
+ return <header className="topbar"><Link className="brand" to="/" onClick={()=>setOpen(false)}><span className="brand-mark"><Flower2/></span><span>Bloom <i>in</i> Braille</span></Link><nav className={open?'nav open':'nav'} aria-label="Main navigation">{links.map(([label,path])=><NavLink key={path} to={path} onClick={()=>setOpen(false)} className={({isActive})=>`nav-link ${isActive || (label==='Content'&&location.pathname.startsWith('/content'))?'active':''}`}>{label}</NavLink>)}</nav><div className="top-actions"><Link className="bookmark-top" to="/bookmarks" aria-label={`Bookmarks, ${bookmarkCount} saved`}><Bookmark size={17}/><span>{bookmarkCount}</span></Link><button className="menu-toggle" onClick={()=>setOpen(v=>!v)} aria-label={open?'Close navigation':'Open navigation'} aria-expanded={open}>{open?<X/>:<Menu/>}</button></div></header>
+}
+export function Footer(){return <footer className="footer"><div className="footer-brand"><span className="brand-mark"><Flower2/></span><div><b>Bloom in Braille</b><p>A story is meant to be felt, not just read.</p></div></div><div className="footer-links"><Link to="/about">About</Link><Link to="/stories">Stories</Link><Link to="/content/upload">Create a book</Link><Link to="/contact">Contact</Link></div><div className="footer-bottom"><span>Made with care, for every reader. <span className="pink-heart">♥</span></span><span>© {new Date().getFullYear()} Bloom in Braille</span></div></footer>}
+export function PageHero({eyebrow,title,intro,children}){return <div className="page-wrap"><section className="page-heading"><span className="tiny-label">{eyebrow}</span><h1>{title}</h1><p>{intro}</p></section>{children}</div>}
